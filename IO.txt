@@ -1,0 +1,212 @@
+Read Text Data
+--------------
+
+Reader:-Abstract base class for reading character stream.
+FileReader:-Reads the character from a text file.
+InputStreamReader: Reads the character from binary input stream.
+BufferReader:- Reads text from an input character stream, allows buffering to convert characters into lines.
+java.util.scanner:-read character data as strings and converts to primitive value.
+
+Write Text Data
+-----------------
+
+Writer:-Abstract base class for writing to character stream.
+File Writer :- writes character to text file.
+BufferWriter:- writes text to  an output character stream ,buffering characters from a character stream.
+printWriter:print formatted representation of objects to a text output stream.
+
+Read Binary Data
+--------------
+
+InputStream:-Abstract base class for representing an input stream of bytes.
+FileInputStream:-Reads streams of raw bytes such as image data.
+BufferedInputStream:- adds ability to buffer the bytes from an input stream.
+ObjectInputStream:- Deserialise the objects from input stream previously written using an object output stream.
+
+Write Binary Data
+-----------------
+
+OutputStream:- Abstract base class for representing an output stream of bytes.
+FileOutputStream:- Writes streams of raw bytes such as image data to a file.
+BufferedOutputStream:-Writes Buffered Bytes to outputstream.
+ObjectOutputStream:- Serializes Objects into bytes to output stream.
+
+Read/Write Primitive Data
+--------------------------
+DataInputStream:-Reads primitive data from an input stream.
+DataOutputStream:-Write primitive data from an output stream.
+
+primitive File Handling
+------------------------
+Random Access File:-Support both reading and writting to a primitive random access file.
+
+Interfaces
+--------------
+serializable:- marker interface used to serialize a class.
+Externalizable:- same as serializable interface but implemented class has to define methods  to serialize  and deserialize an object.
+
+Exception classes
+---------------------
+EOFException:-Raised when end of file is reached while reading afile.
+FileNotFound Exception:- Raised when  afile with the specified path name does not exist
+IOEException:- produced by failed or interupted I/o opertion
+
+
+List of subdirectory
+----------------------
+
+File directory = new file("c:/temp");
+
+string[] files = directory .list();
+for(string f:files){
+s.o.p(f);
+}
+
+create a subdirectory
+-------------------------
+File subdir = new File(directory,"test");
+subdir.mkdir();
+
+Rename or delete a file or directory
+-------------------------------------
+File file = new File("a.text");
+file.renameTo(new File("b.txt"));
+
+file.delete();
+file.deleteOnExist();
+
+
+Read From a text File
+----------------------------
+
+FileReader class is used to read character stream from a text file.
+
+FileReader reader = new FileReader("c:/test.txt");
+int ch=reader.read;
+char chr;
+while(ch!=-1){
+	chr=(char) ch;
+	s.o.p(chr);
+	ch=reader.read();
+     }
+
+Read text Line by Line
+--------------------------
+class BufferReader and java.util.scanner can be used to read text line by line from a stream object.
+class BufferReader is subclass of reader and reads text from a character input stream.
+
+FileReader r = new FileReader("c:/test.txt");
+BufferReader br = new BufferReader(r);
+int ch = br.read();             /// returns -1 if end of stream reached
+string line = br.readLine();      //// returns null
+
+
+class scanner is simple text scanner whic can parse primitive type and strings using regular expression. A scanner breakes its input into tokens using delimiter
+pattern, which bydefault matches whitespace.
+
+FileReader r = new FileReader("c:/test.txt");
+Scanner sc = new Scanner(r);
+While(sc.hasNext()){
+	String Line = sc.nextLine();
+	S.o.p(Line);
+}
+
+Scanner has methods hasNextXXX() and NextXXX() to scan and parse primitive data type values.
+
+
+Write a text file
+-------------------------
+FileWriter class is used to write characters stream to text file.
+
+FileWriter w = new FileWriter("c:/test.txt");
+char[] cArray = {'H','i'};
+w.write(cArray);    // write char array
+w.write(',');   // write a char
+w.write("Friday");
+w.close();
+
+Flush vs close()
+=---------------------
+
+flush() moves data from primary memory buffer to the target stream. or it moves dirty data to its destination and clear the buffer,
+
+close() internally calls the flush() and then close the target stream.
+
+Read and Write Binary File
+-------------------------------
+
+classes FileInputStream and FileOutputStream are used to read and write the bytes to a file.
+
+String source = "f:/baby.jpg";
+String target= "f:/girl.jpg";
+
+FileInputStream in = new FileInputStream (source);
+FileOutputStream  out = new FileOutputStream (target);
+
+int ch = in.read();
+while(ch!=-1){
+	out.write(ch);
+	ch = in.read();
+}
+
+out.close();
+in.close();
+
+BufferedInputStream and BufferedOutputStream
+-------------------------------------------------------
+
+both classes add buffering capability to byte stream.An internal buffer is created to hold the multiple bytes from the byte stream.
+
+BufferInputStream in = new BufferInputStream(new FileInputStream ("f:/baby.jpg") );
+BufferedOutputStream out  = new BufferedOutputStream(new FileOutputStream ("f:/girl.jpg"));
+
+byte[] buff = new byte[256];
+int count = in.read(buff);
+
+while(count>0){
+	out.write(buff,0,count);
+	count = in.read(buff);
+}
+out.close();
+in.close();
+
+Read From keyboard
+--------------------------
+
+Class InputStreamReader is used to convert a binary stream into char stream. when  a charcter stream is read from hardware like keyboard or network socket, data is
+recieved as binary stream that time InputStreamReader is used to convert binary stream into charcter stream.
+
+PrintWriter out = new PrintWriter(new FileInputStream ("f:/temp.txt"));
+InputStreamReader  kb = new InputStreamReader(System.in);
+BufferReader in = new BufferReader(kb);
+
+String line = in.readLine();
+while(!line.equals("quit")){
+	out.println(line);
+	line = in.readLine();
+}
+in.close();
+kb.close();
+
+
+Read and Write Primitive Data
+================================
+
+DataInputStram and DataOutputStream class are used 
+
+
+Read and writes objects and serialization
+=================================================
+
+ObjectInputStream and ObjectOutputStream classes are used to Read and writes objects to binary stream.
+when an object is converted into byte stream is called serialization.
+when byte stream is converted back to an object is called deseialization
+
+FileOutputStream  file = new FileOutputStream("c:/object.ser");
+ObjectOutputStream out = new ObjectOutputStream(file);
+MarksheetBean m  = new MarksheetBean ();
+m.setName("ptk");
+
+out.writeObject(m);    //////// serialization
+
+MarksheetBean m = (MarksheetBean) in .readObject();         ////////// deserialize
